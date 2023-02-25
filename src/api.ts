@@ -7,7 +7,10 @@ export function fetchCoins() {
 }
 
 export function fetchCoinInfo(coinId: string) {
-  return fetch(`${COIN_URL}/${coinId}`).then((response) => response.json());
+  return fetch(`${BASE_URL}/coins/${coinId}`).then((response) =>
+    response.json()
+  );
+  // return fetch(`${COIN_URL}/${coinId}`).then((response) => response.json());
 }
 
 export function fetchCoinTickers(coinId: string) {

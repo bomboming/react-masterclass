@@ -1,5 +1,5 @@
-import { Helmet } from "react-helmet";
-import { useQuery } from "react-query";
+import { Helmet, HelmetProvider } from "react-helmet-async";
+import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoins } from "../api";
@@ -20,11 +20,13 @@ const Header = styled.header`
 const CoinsList = styled.ul``;
 
 const Coin = styled.li`
-  background-color: white;
+  background-color: ${(props) => props.theme.liBgColor};
   color: ${(props) => props.theme.bgColor};
   border-radius: 15px;
   margin-bottom: 10px;
   a {
+    color: ${(props) => props.theme.textColor};
+    font-weight: 600;
     display: flex;
     align-items: center;
     padding: 20px;
@@ -39,7 +41,8 @@ const Coin = styled.li`
 
 const Title = styled.h1`
   font-size: 48px;
-  color: ${(props) => props.theme.accentColor};
+  font-weight: 800;
+  color: ${(props) => props.theme.titleColor};
 `;
 
 const Loader = styled.span`
@@ -64,14 +67,17 @@ interface ICoin {
 }
 
 function Coins() {
-  const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
+  const { isLoading, data } = useQuery<ICoin[]>(["allCoins"], fetchCoins);
+
   return (
     <Container>
-      <Helmet>
-        <title>코인</title>
-      </Helmet>
+      <HelmetProvider>
+        <Helmet>
+          <title>코인</title>
+        </Helmet>
+      </HelmetProvider>
       <Header>
-        <Title>코인</Title>
+        <Title>Coin World</Title>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>
