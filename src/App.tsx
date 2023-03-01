@@ -1,23 +1,26 @@
 import Router from "./Router";
-import { useState } from "react";
+// import { useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "./theme";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "./atoms";
 
 function App() {
-  const [isDark, setIsDark] = useState<boolean>(false);
-  const changeTheme = () => setIsDark((current) => !current);
-  const text = isDark === true ? "🌝" : "🌚";
-  const goToHome = () => window.location.replace("/");
+  const isDark = useRecoilValue(isDarkAtom);
+  // const [isDark, setIsDark] = useState<boolean>(false);
+  // const changeTheme = () => setIsDark((current) => !current);
+  // const text = isDark === true ? "🌝" : "🌚";
+  // const goToHome = () => window.location.replace("/");
 
   return (
     <>
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-        <Header>
+        {/* <Header>
           <Toggle onClick={changeTheme}>{text}</Toggle>
           <Home onClick={goToHome}>🏠</Home>
-        </Header>
+        </Header> */}
         <GlobalStyle />
         <Router />
         <ReactQueryDevtools initialIsOpen={true} />
@@ -90,42 +93,42 @@ a {
   color:inherit;
 }
 `;
-const Header = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 20px 0 20px;
-  background-color: ${(props) => props.theme.bgColor};
-  border: none;
-`;
+// const Header = styled.button`
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   width: 100%;
+//   padding: 0 20px 0 20px;
+//   background-color: ${(props) => props.theme.bgColor};
+//   border: none;
+// `;
 
-const Toggle = styled.button`
-  background-color: ${(props) => props.theme.themeBg};
-  color: #ffffff;
-  border: none;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 40px;
-  margin: 10px;
-`;
+// const Toggle = styled.button`
+//   background-color: ${(props) => props.theme.themeBg};
+//   color: #ffffff;
+//   border: none;
+//   border-radius: 50%;
+//   width: 60px;
+//   height: 60px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   font-size: 40px;
+//   margin: 10px;
+// `;
 
-const Home = styled.button`
-  background-color: tomato;
-  color: #ffffff;
-  border: none;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 40px;
-  margin: 10px;
-`;
+// const Home = styled.button`
+//   background-color: tomato;
+//   color: #ffffff;
+//   border: none;
+//   border-radius: 50%;
+//   width: 60px;
+//   height: 60px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   font-size: 40px;
+//   margin: 10px;
+// `;
 
 export default App;

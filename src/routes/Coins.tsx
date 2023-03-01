@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoins } from "../api";
+import { useSetRecoilState } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 interface ICoin {
   id: string;
@@ -16,6 +18,9 @@ interface ICoin {
 
 function Coins() {
   const { isLoading, data } = useQuery<ICoin[]>(["allCoins"], fetchCoins);
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
+  // const text = setTheme === true ? "🌝" : "🌚";
 
   return (
     <Container>
@@ -26,6 +31,7 @@ function Coins() {
       </HelmetProvider>
       <Header>
         <Title>Coin World</Title>
+        <Toggle onClick={toggleDarkAtom}>??</Toggle>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>
@@ -71,6 +77,20 @@ const Title = styled.h1`
   color: ${(props) => props.theme.titleColor};
 `;
 
+const Toggle = styled.button`
+  background-color: ${(props) => props.theme.themeBg};
+  color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  margin: 10px;
+`;
+
 const Loader = styled.span`
   text-align: center;
   display: block;
@@ -84,7 +104,7 @@ const Coin = styled.li`
   border-radius: 15px;
   margin-bottom: 10px;
   a {
-    color: ${(props) => props.theme.textColor};
+    color: ${(props) => props.theme.bgColor};
     font-weight: 600;
     display: flex;
     align-items: center;
